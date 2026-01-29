@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+
 import { assets as initialAssets } from "../data/assets";
 import {AssetTable} from '../components/AssetTable'
-import { useEffect } from "react";
+import { useEffect ,useMemo, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
+
+
 
 export default function Home() {
   const [data, setData] = useState(initialAssets);
@@ -34,58 +36,67 @@ export default function Home() {
   }, []);
 
   // Apply filtering and sorting
-const filteredAssets = data
-  .filter((asset) => {
-    const matchesType =
-      filterType === "All" ? true : asset.type === filterType;
+  const filteredAssets = useMemo(() => {
+    return data
+      .filter((asset) => {
+        const matchesType =
+          filterType === "All" ? true : asset.type === filterType;
 
-    const matchesSearch =
-      asset.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-      asset.symbol.toLowerCase().includes(debouncedSearch.toLowerCase());
+        const matchesSearch =
+          asset.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+          asset.symbol.toLowerCase().includes(debouncedSearch.toLowerCase());
 
-    return matchesType && matchesSearch;
-  })
-  .sort((a, b) => {
-    if (sortBy === "price") return b.price - a.price;
-    if (sortBy === "change") return b.change - a.change;
-    return 0;
-  });
+        return matchesType && matchesSearch;
+      })
+      .sort((a, b) => {
+        if (sortBy === "price") return b.price - a.price;
+        if (sortBy === "change") return b.change - a.change;
+        return 0;
+      });
+  }, [data, filterType, sortBy, debouncedSearch]);
 
   
 
-  return (
-    <div>
-      <h1>Real-Time Assets Dashboard</h1>
-      {/* Search Input */}
+ return (
+  <main className="min-h-screen bg-white p-4 md:p-8 text-center">
+    <h1 className="text-2xl md:text-3xl font-bold mb-6 text-cyan-600">
+      Real-Time Assets Dashboard
+    </h1>
+
+    {/* Controls */}
+    <div className="flex flex-col md:flex-row gap-3 mb-6">
       <input
         type="text"
         placeholder="Search by name or symbol..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        className="px-3 py-2 border rounded-md w-full md:w-64 text-gray-600"
       />
-      {/* filter */}
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-    <select
-      value={filterType}
-      onChange={(e) => setFilterType(e.target.value)}
-    >
-      <option value="All">All</option>
-      <option value="Stock">Stock</option>
-      <option value="Crypto">Crypto</option>
-      <option value="ETF">ETF</option>
-    </select>
 
-    <select
-      value={sortBy}
-      onChange={(e) => setSortBy(e.target.value)}
-    >
-      <option value="">No Sorting</option>
-      <option value="price">Sort by Price</option>
-      <option value="change">Sort by Change</option>
-    </select>
-  </div>
+      <select
+        value={filterType}
+        onChange={(e) => setFilterType(e.target.value)}
+        className="px-3 py-2 border rounded-md  text-gray-600"
+      >
+        <option value="All">All</option>
+        <option value="Stock">Stock</option>
+        <option value="Crypto">Crypto</option>
+        <option value="ETF">ETF</option>
+      </select>
 
-      <AssetTable assets={filteredAssets} />
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="px-3 py-2 border rounded-md  text-gray-600"
+      >
+        <option value="">No Sorting</option>
+        <option value="price">Sort by Price</option>
+        <option value="change">Sort by Change</option>
+      </select>
     </div>
-  );
+
+    <AssetTable assets={filteredAssets} />
+  </main>
+);
+
 }
