@@ -1,6 +1,20 @@
 import {assets} from "../data/assets";
 
-export default function AssetTable() {
+type Asset = {
+  id: number;
+  name: string;
+  symbol: string;
+  price: number;
+  change: number;
+  type: string;
+  updatedAt: string;
+};
+
+type AssetTableProps = {
+  assets: Asset[];
+};
+
+export function AssetTable({ assets }: AssetTableProps) {
   return (
     <table>
         <thead>
@@ -25,4 +39,3 @@ export default function AssetTable() {
     );
 }
 
-export {AssetTable};
