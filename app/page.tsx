@@ -4,11 +4,14 @@ import { useState } from "react";
 import { assets as initialAssets } from "../data/assets";
 import {AssetTable} from '../components/AssetTable'
 import { useEffect } from "react";
+import { useDebounce } from "../hooks/useDebounce";
 
 export default function Home() {
   const [data, setData] = useState(initialAssets);
   const [filterType, setFilterType] = useState<string>("All");
   const [sortBy, setSortBy] = useState<string>("");
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,19 +34,36 @@ export default function Home() {
   }, []);
 
   // Apply filtering and sorting
-  const filteredAssets = data
-  .filter((asset) =>
-    filterType === "All" ? true : asset.type === filterType
-  )
+const filteredAssets = data
+  .filter((asset) => {
+    const matchesType =
+      filterType === "All" ? true : asset.type === filterType;
+
+    const matchesSearch =
+      asset.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      asset.symbol.toLowerCase().includes(debouncedSearch.toLowerCase());
+
+    return matchesType && matchesSearch;
+  })
   .sort((a, b) => {
     if (sortBy === "price") return b.price - a.price;
     if (sortBy === "change") return b.change - a.change;
     return 0;
   });
 
+  
+
   return (
     <div>
       <h1>Real-Time Assets Dashboard</h1>
+      {/* Search Input */}
+      <input
+        type="text"
+        placeholder="Search by name or symbol..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      {/* filter */}
       <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
     <select
       value={filterType}
