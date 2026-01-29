@@ -1,4 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Real-Time Assets Dashboard
+
+Small Next.js app demonstrating a responsive, client-side real-time assets dashboard with debounced search, filtering and sorting.
+
+## Features
+
+- Real-time mock updates: asset prices update every 3 seconds to simulate live data.
+- Client-side filtering: filter by asset type (Stock, Crypto, ETF, or All).
+- Client-side sorting: sort by `price` or `change`.
+- Debounced search: search by name or symbol using a `useDebounce` hook to avoid work on every keystroke.
+- Built with Next.js `app` router and Tailwind CSS utilities (no UI component library).
+
+## Run locally
+
+Install dependencies and run the dev server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:3000
+
 
 ## Getting Started
 

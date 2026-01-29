@@ -39,7 +39,7 @@ export function AssetTable({ assets }: AssetTableProps) {
             }`}
           >
             {asset.change >= 0 ? "+" : ""}
-            {asset.change}
+            {asset.change.toFixed(2)}
           </td>
           <td className="p-3 text-xs text-gray-700">
             {new Date(asset.updatedAt).toLocaleTimeString()}
