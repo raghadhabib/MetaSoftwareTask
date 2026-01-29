@@ -1,11 +1,9 @@
 "use client";
 
-
 import { assets as initialAssets } from "../data/assets";
 import {AssetTable} from '../components/AssetTable'
 import { useEffect ,useMemo, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
-
 
 
 export default function Home() {
@@ -19,7 +17,7 @@ export default function Home() {
     const interval = setInterval(() => {
       setData((prevAssets) =>
         prevAssets.map((asset) => {
-          const randomChange = (Math.random() * 2 - 1).toFixed(2); // -1 to +1
+          const randomChange = (Math.random() * 2 - 1).toFixed(2);
           const priceChange = Number(randomChange);
 
           return {
@@ -30,12 +28,12 @@ export default function Home() {
           };
         })
       );
-    }, 3000); // every 3 seconds
+    }, 3000); 
 
     return () => clearInterval(interval);
   }, []);
 
-  // Apply filtering and sorting
+  
   const filteredAssets = useMemo(() => {
     return data
       .filter((asset) => {
@@ -58,12 +56,12 @@ export default function Home() {
   
 
  return (
-  <main className="min-h-screen bg-white p-4 md:p-8 text-center">
+  <main className="min-h-screen bg-white p-4 md:p-8 text-left">
     <h1 className="text-2xl md:text-3xl font-bold mb-6 text-cyan-600">
       Real-Time Assets Dashboard
     </h1>
 
-    {/* Controls */}
+    
     <div className="flex flex-col md:flex-row gap-3 mb-6">
       <input
         type="text"
@@ -82,6 +80,7 @@ export default function Home() {
         <option value="Stock">Stock</option>
         <option value="Crypto">Crypto</option>
         <option value="ETF">ETF</option>
+        
       </select>
 
       <select

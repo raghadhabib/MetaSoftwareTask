@@ -43,5 +43,32 @@ export const assets = [
     change: -1.05,
     type: "Stock",
     updatedAt: "2026-01-28T12:30:00"
+  },
+    {
+    id: 6,
+    name: "Microsoft Corp",
+    symbol: "MSFT",
+    price: 428.90,
+    change: 0.0,
+    type: "Stock",
+    updatedAt: "2026-01-28T12:30:00"
+  },
+    {
+    id: 7,
+    name: "Vanguard Total Bond",
+    symbol: "BND",
+    price: 72.15,
+    change: 0.0,
+    type: "ETF",
+    updatedAt: "2026-01-28T12:30:00"
+  },
+    {
+    id: 8,
+    name: "NVIDIA Corp",
+    symbol: "NVDA",
+    price: 875.40,
+    change: 0.0,
+    type: "Stock",
+    updatedAt: "2026-01-28T12:30:00"
   }
 ];
