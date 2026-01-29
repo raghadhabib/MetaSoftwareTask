@@ -23,6 +23,8 @@ export function AssetTable({ assets }: AssetTableProps) {
                 <th>Name</th>   
                 <th>Symbol</th>
                 <th>Price</th>
+                <th>Change</th>
+                <th>Last Updated</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +34,11 @@ export function AssetTable({ assets }: AssetTableProps) {
                     <td>{asset.name}</td>
                     <td>{asset.symbol}</td>
                     <td>${asset.price.toFixed(2)}</td>
+                    <td className={asset.change >= 0 ? "text-green-600" : "text-red-600"}>
+                    {asset.change >= 0 ? "+" : ""}
+                    {asset.change}
+                    </td>
+                    <td>{new Date(asset.updatedAt).toLocaleTimeString()}</td>
                 </tr>
             ))}
         </tbody>
